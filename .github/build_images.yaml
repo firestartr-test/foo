@@ -1,0 +1,11 @@
+snapshots:
+  default:
+    build_args:
+    dockerfile: Dockerfile
+
+releases:
+  default:
+    build-always: true
+    extra_registries: []
+    build_args:
+    dockerfile:  Dockerfile
