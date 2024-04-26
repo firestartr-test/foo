@@ -1,0 +1,36 @@
+name: Build images
+on:
+  workflow_dispatch:
+    inputs:
+      from:
+        type: string
+        description: 'Origin commit or tag'
+        required: true
+        default: 'master'
+      type:
+        type: choice
+        description: Type of image to build 
+        options:
+         - snapshots
+         - releases
+        default: snapshots
+      flavors:
+        type: string
+        description: 'On-premises name/s | one (alone), several(separated by commas) or all (*)'
+        required: true
+        default: "*"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  call-build:
+    uses: prefapp/firestarter-workflows/.github/workflows/build_images.yaml@v1
+    secrets: inherit
+    with:
+      type:  ${{ inputs.type }}
+      from: ${{ inputs.from }}
+      flavors:  ${{ inputs.flavors }}
+      auth_strategy: azure_oidc
+
